@@ -1,0 +1,43 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Luxury Parking{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'estacionamiento/css/estilos.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>LUXURY PARKING</h1>
+        <p>Elegancia y seguridad para tu vehículo</p>
+    </header>
+
+    <nav>
+        <a href="{% url 'estacionamiento:cliente_lista' %}">Clientes</a>
+        <a href="{% url 'estacionamiento:vehiculo_lista' %}">Vehículos</a>
+        <a href="{% url 'estacionamiento:estancia_lista' %}">Estancias</a>
+        <a href="{% url 'estacionamiento:servicio_lista' %}">Servicios</a>
+    </nav>
+
+    <main>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mensaje">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2026 Luxury Parking</p>
+    </footer>
+
+</body>
+</html>

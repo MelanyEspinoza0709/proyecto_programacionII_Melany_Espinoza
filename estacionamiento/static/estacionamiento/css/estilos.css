@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #edebf4;
+    color: #252525;
+}
+
+/* ENCABEZADO */
+header {
+    background-color: #151515;
+    color: #6e37d4;
+    text-align: center;
+    padding: 30px;
+    border-bottom: 4px solid #5937d4;
+}
+
+header h1 {
+    font-size: 32px;
+    letter-spacing: 4px;
+}
+
+header p {
+    color: #eeeeee;
+    margin-top: 10px;
+}
+
+/* MENU */
+nav {
+    background-color: #252525;
+    padding: 18px;
+    text-align: center;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 18px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #5937d4;
+}
+
+/* CONTENIDO */
+main {
+    width: 90%;
+    max-width: 1100px;
+    min-height: 450px;
+    margin: 35px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.10);
+}
+
+/* MENSAJES */
+.mensaje {
+    background-color: #e8f5e9;
+    color: #562560;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-left: 4px solid #52388e;
+    border-radius: 5px;
+}
+
+/* PIE DE PAGINA */
+footer {
+    background-color: #151515;
+    color: #7b37d4;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
