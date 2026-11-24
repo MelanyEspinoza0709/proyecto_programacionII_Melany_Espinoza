@@ -1,10 +1,14 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 from estacionamiento.models import Estancia
 from estacionamiento.forms import EstanciaForm
 
 
 # Listar estancias
+@login_required
 def estancia_lista(request):
     estancias = Estancia.objects.all()
 
@@ -14,6 +18,7 @@ def estancia_lista(request):
 
 
 # Registrar estancia
+@login_required
 def estancia_crear(request):
     if request.method == 'POST':
         formulario = EstanciaForm(request.POST)
@@ -36,6 +41,7 @@ def estancia_crear(request):
 
 
 # Ver detalles
+@login_required
 def estancia_detalle(request, pk):
     estancia = get_object_or_404(Estancia, pk=pk)
 
@@ -45,6 +51,7 @@ def estancia_detalle(request, pk):
 
 
 # Editar estancia
+@login_required
 def estancia_editar(request, pk):
     estancia = get_object_or_404(Estancia, pk=pk)
 
@@ -66,6 +73,7 @@ def estancia_editar(request, pk):
 
 
 # Eliminar estancia
+@login_required
 def estancia_eliminar(request, pk):
     estancia = get_object_or_404(Estancia, pk=pk)
 

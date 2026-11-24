@@ -1,8 +1,13 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 from estacionamiento.models import Cliente
 from estacionamiento.forms import ClienteForm
 
+
+@login_required
 def cliente_lista(request):
     clientes = Cliente.objects.all()
 
@@ -10,6 +15,8 @@ def cliente_lista(request):
         'clientes': clientes
     })
 
+
+@login_required
 def cliente_crear(request):
     if request.method == 'POST':
         formulario = ClienteForm(request.POST)
@@ -26,6 +33,8 @@ def cliente_crear(request):
         'formulario': formulario
     })
 
+
+@login_required
 def cliente_detalle(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
 
@@ -33,6 +42,8 @@ def cliente_detalle(request, pk):
         'cliente': cliente
     })
 
+
+@login_required
 def cliente_editar(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
 
@@ -53,6 +64,7 @@ def cliente_editar(request, pk):
     })
 
 
+@login_required
 def cliente_eliminar(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
 
