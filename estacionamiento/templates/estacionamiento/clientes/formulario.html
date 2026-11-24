@@ -1,0 +1,35 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Formulario de cliente | Luxury Parking{% endblock %}
+
+{% block content %}
+
+<div class="encabezado-seccion">
+    <div>
+        {% if cliente %}
+            <h2>Editar cliente</h2>
+            <p>Actualiza la información del cliente.</p>
+        {% else %}
+            <h2>Registrar cliente</h2>
+            <p>Ingresa los datos del nuevo cliente.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="formulario-contenedor">
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ formulario.as_p }}
+
+        <div class="acciones-formulario">
+            <button type="submit" class="boton">Guardar</button>
+            <a href="{% url 'estacionamiento:cliente_lista' %}" class="boton-secundario">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

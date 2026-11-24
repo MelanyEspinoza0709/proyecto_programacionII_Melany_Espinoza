@@ -1,0 +1,51 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Estancias | Luxury Parking{% endblock %}
+
+{% block content %}
+<div class="encabezado-seccion">
+    <div>
+        <h2>Gestión de estancias</h2>
+        <p>Administra los ingresos y salidas de vehículos.</p>
+    </div>
+
+    <a href="{% url 'estacionamiento:estancia_crear' %}" class="boton">
+        + Nueva estancia
+    </a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Vehículo</th>
+            <th>Espacio</th>
+            <th>Entrada</th>
+            <th>Estado</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for estancia in estancias %}
+        <tr>
+            <td>{{ estancia.vehiculo }}</td>
+            <td>{{ estancia.espacio }}</td>
+            <td>{{ estancia.fecha_entrada|date:"d/m/Y H:i" }}</td>
+            <td>{{ estancia.estado }}</td>
+            <td>${{ estancia.total }}</td>
+            <td>
+                <a href="{{ estancia.get_absolute_url }}">Ver</a>
+                <a href="{% url 'estacionamiento:estancia_editar' estancia.pk %}">Editar</a>
+                <a href="{% url 'estacionamiento:estancia_eliminar' estancia.pk %}">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Todavía no hay estancias registradas.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

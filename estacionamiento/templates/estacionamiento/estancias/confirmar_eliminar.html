@@ -1,0 +1,27 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Eliminar estancia | Luxury Parking{% endblock %}
+
+{% block content %}
+<div class="detalle-contenedor">
+    <h2>Eliminar estancia</h2>
+
+    <p>¿Estás segura de que deseas eliminar la estancia
+        <strong>#{{ estancia.pk }}</strong>?
+    </p>
+
+    <p>Esta acción no se puede deshacer.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit" class="boton-eliminar">
+            Sí, eliminar
+        </button>
+
+        <a href="{% url 'estacionamiento:estancia_lista' %}"
+           class="boton-secundario">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

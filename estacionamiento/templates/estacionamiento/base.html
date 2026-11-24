@@ -16,11 +16,12 @@
     </header>
 
     <nav>
-        <a href="{% url 'estacionamiento:cliente_lista' %}">Clientes</a>
-        <a href="{% url 'estacionamiento:vehiculo_lista' %}">Vehículos</a>
-        <a href="{% url 'estacionamiento:estancia_lista' %}">Estancias</a>
-        <a href="{% url 'estacionamiento:servicio_lista' %}">Servicios</a>
-    </nav>
+    <a href="{% url 'estacionamiento:cliente_lista' %}">Clientes</a>
+    <a href="{% url 'estacionamiento:vehiculo_lista' %}">Vehículos</a>
+    <a href="{% url 'estacionamiento:estancia_lista' %}">Estancias</a>
+    <a href="{% url 'estacionamiento:servicio_lista' %}">Servicios</a>
+    <a href="{% url 'estacionamiento:espacio_lista' %}">Espacios</a>
+</nav>
 
     <main>
         {% if messages %}

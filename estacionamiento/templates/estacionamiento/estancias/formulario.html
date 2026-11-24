@@ -1,0 +1,32 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Formulario de estancia | Luxury Parking{% endblock %}
+
+{% block content %}
+<div class="encabezado-seccion">
+    <div>
+        {% if estancia %}
+            <h2>Editar estancia</h2>
+            <p>Actualiza la información de la estancia.</p>
+        {% else %}
+            <h2>Registrar estancia</h2>
+            <p>Ingresa los datos del nuevo ingreso.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="formulario-contenedor">
+    <form method="POST">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+
+        <div class="acciones-formulario">
+            <button type="submit" class="boton">Guardar</button>
+
+            <a href="{% url 'estacionamiento:estancia_lista' %}"
+               class="boton-secundario">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
