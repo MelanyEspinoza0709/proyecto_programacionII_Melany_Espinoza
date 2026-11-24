@@ -1,0 +1,27 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Eliminar vehículo | Luxury Parking{% endblock %}
+
+{% block content %}
+<div class="detalle-contenedor">
+    <h2>Eliminar vehículo</h2>
+
+    <p>¿Estás segura de que deseas eliminar el vehículo
+        <strong>{{ vehiculo.marca }} {{ vehiculo.modelo }}</strong>?
+    </p>
+
+    <p>Placa: {{ vehiculo.placa }}</p>
+    <p>Esta acción no se puede deshacer.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="boton-eliminar">
+            Sí, eliminar
+        </button>
+
+        <a href="{% url 'estacionamiento:vehiculo_lista' %}"
+           class="boton-secundario">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

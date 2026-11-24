@@ -1,0 +1,25 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Espacios | Luxury Parking{% endblock %}
+
+{% block content %}
+<div class="encabezado-seccion">
+    <div>
+        <h2>Gestión de espacios</h2>
+        <p>Consulta los espacios registrados en el estacionamiento.</p>
+    </div>
+</div>
+
+<div class="detalle-contenedor">
+    {% for espacio in espacios %}
+        <div>
+            <h3>Espacio {{ espacio.espacio }}</h3>
+            <a href="{% url 'estacionamiento:espacio_detalle' espacio.espacio %}"
+               class="boton">Ver detalles</a>
+        </div>
+    {% empty %}
+        <p>Todavía no hay espacios registrados.</p>
+    {% endfor %}
+</div>
+{% endblock %}

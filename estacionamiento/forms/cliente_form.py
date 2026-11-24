@@ -21,3 +21,13 @@ class ClienteForm(forms.ModelForm):
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
         }
+
+    def clean_cedula(self):
+        cedula = self.cleaned_data.get('cedula')
+
+        if not cedula.isdigit() or len(cedula) != 10:
+            raise forms.ValidationError(
+                'La cédula debe contener exactamente 10 números.'
+            )
+
+        return cedula

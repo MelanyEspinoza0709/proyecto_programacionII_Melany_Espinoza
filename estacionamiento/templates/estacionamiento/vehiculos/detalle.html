@@ -1,0 +1,28 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Detalle del vehículo | Luxury Parking{% endblock %}
+
+{% block content %}
+<h2>Información del vehículo</h2>
+<p>Detalles del vehículo registrado.</p>
+
+<div class="detalle-contenedor">
+    <h3>{{ vehiculo.marca }} {{ vehiculo.modelo }}</h3>
+
+    <p><strong>Placa:</strong> {{ vehiculo.placa }}</p>
+    <p><strong>Marca:</strong> {{ vehiculo.marca }}</p>
+    <p><strong>Modelo:</strong> {{ vehiculo.modelo }}</p>
+    <p><strong>Año:</strong> {{ vehiculo.anio }}</p>
+    <p><strong>Color:</strong> {{ vehiculo.color }}</p>
+    <p><strong>Cliente:</strong> {{ vehiculo.cliente }}</p>
+
+    <a href="{% url 'estacionamiento:vehiculo_editar' vehiculo.pk %}" class="boton">
+        Editar vehículo
+    </a>
+
+    <a href="{% url 'estacionamiento:vehiculo_lista' %}" class="boton-secundario">
+        Volver
+    </a>
+</div>
+{% endblock %}

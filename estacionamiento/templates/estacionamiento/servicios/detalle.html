@@ -1,0 +1,32 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Detalle del servicio | Luxury Parking{% endblock %}
+
+{% block content %}
+<h2>Información del servicio</h2>
+
+<div class="detalle-contenedor">
+    <h3>{{ servicio.nombre }}</h3>
+
+    <p><strong>Descripción:</strong>
+        {{ servicio.descripcion|default:"Sin descripción" }}</p>
+
+    <p><strong>Precio:</strong> ${{ servicio.precio }}</p>
+
+    <h3>Estancias relacionadas</h3>
+
+    {% for estancia in servicio.estancias.all %}
+        <p>
+            <a href="{{ estancia.get_absolute_url }}">
+                Estancia #{{ estancia.pk }}
+            </a>
+        </p>
+    {% empty %}
+        <p>Este servicio todavía no está asociado a ninguna estancia.</p>
+    {% endfor %}
+
+    <a href="{% url 'estacionamiento:servicio_lista' %}"
+       class="boton-secundario">Volver</a>
+</div>
+{% endblock %}
