@@ -1,0 +1,26 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+
+<div class="formulario-contenedor">
+    <h2>Iniciar sesión</h2>
+    <p>Ingresa tus datos para acceder a Luxury Parking.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ formulario.as_p }}
+
+        <button type="submit">Ingresar</button>
+    </form>
+
+    <p>
+        ¿Todavía no tienes una cuenta?
+        <a href="{% url 'estacionamiento:registro' %}">Regístrate aquí</a>
+    </p>
+</div>
+
+{% endblock %}

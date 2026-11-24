@@ -1,0 +1,26 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Crear cuenta{% endblock %}
+
+{% block content %}
+
+<div class="formulario-contenedor">
+    <h2>Crear cuenta</h2>
+    <p>Regístrate para acceder a Luxury Parking.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ formulario.as_p }}
+
+        <button type="submit">Registrarme</button>
+    </form>
+
+    <p>
+        ¿Ya tienes una cuenta?
+        <a href="{% url 'estacionamiento:login' %}">Inicia sesión</a>
+    </p>
+</div>
+
+{% endblock %}
