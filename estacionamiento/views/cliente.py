@@ -1,13 +1,14 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 from estacionamiento.models import Cliente
 from estacionamiento.forms import ClienteForm
 
 
+# Listar clientes
 @login_required
+@permission_required('estacionamiento.view_cliente', raise_exception=True)
 def cliente_lista(request):
     clientes = Cliente.objects.all()
 
@@ -16,7 +17,9 @@ def cliente_lista(request):
     })
 
 
+# Registrar clientes
 @login_required
+@permission_required('estacionamiento.add_cliente', raise_exception=True)
 def cliente_crear(request):
     if request.method == 'POST':
         formulario = ClienteForm(request.POST)
@@ -34,7 +37,9 @@ def cliente_crear(request):
     })
 
 
+# Ver detalles
 @login_required
+@permission_required('estacionamiento.view_cliente', raise_exception=True)
 def cliente_detalle(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
 
@@ -43,7 +48,9 @@ def cliente_detalle(request, pk):
     })
 
 
+# Editar clientes
 @login_required
+@permission_required('estacionamiento.change_cliente', raise_exception=True)
 def cliente_editar(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
 
@@ -64,7 +71,9 @@ def cliente_editar(request, pk):
     })
 
 
+# Eliminar clientes
 @login_required
+@permission_required('estacionamiento.delete_cliente', raise_exception=True)
 def cliente_eliminar(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
 

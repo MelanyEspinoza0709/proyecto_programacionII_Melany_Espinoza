@@ -1,12 +1,13 @@
-
 from django.shortcuts import render
 from django.http import Http404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 from estacionamiento.models import Estancia
 
 
+# Listar espacios
 @login_required
+@permission_required('estacionamiento.view_estancia', raise_exception=True)
 def espacio_lista(request):
     espacios = Estancia.objects.values('espacio').distinct().order_by('espacio')
 
@@ -17,7 +18,9 @@ def espacio_lista(request):
     )
 
 
+# Ver detalles del espacio
 @login_required
+@permission_required('estacionamiento.view_estancia', raise_exception=True)
 def espacio_detalle(request, espacio):
     estancias = Estancia.objects.filter(
         espacio=espacio

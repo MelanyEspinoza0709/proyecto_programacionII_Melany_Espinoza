@@ -4,6 +4,7 @@
 {% block title %}Espacios | Luxury Parking{% endblock %}
 
 {% block content %}
+
 <div class="encabezado-seccion">
     <div>
         <h2>Gestión de espacios</h2>
@@ -15,11 +16,15 @@
     {% for espacio in espacios %}
         <div>
             <h3>Espacio {{ espacio.espacio }}</h3>
+
             <a href="{% url 'estacionamiento:espacio_detalle' espacio.espacio %}"
-               class="boton">Ver detalles</a>
+               class="boton">
+                Ver detalles
+            </a>
         </div>
     {% empty %}
         <p>Todavía no hay espacios registrados.</p>
     {% endfor %}
 </div>
+
 {% endblock %}

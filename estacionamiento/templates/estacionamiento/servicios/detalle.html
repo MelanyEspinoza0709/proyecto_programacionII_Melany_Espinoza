@@ -4,13 +4,16 @@
 {% block title %}Detalle del servicio | Luxury Parking{% endblock %}
 
 {% block content %}
+
 <h2>Información del servicio</h2>
 
 <div class="detalle-contenedor">
+
     <h3>{{ servicio.nombre }}</h3>
 
     <p><strong>Descripción:</strong>
-        {{ servicio.descripcion|default:"Sin descripción" }}</p>
+        {{ servicio.descripcion|default:"Sin descripción" }}
+    </p>
 
     <p><strong>Precio:</strong> ${{ servicio.precio }}</p>
 
@@ -27,6 +30,10 @@
     {% endfor %}
 
     <a href="{% url 'estacionamiento:servicio_lista' %}"
-       class="boton-secundario">Volver</a>
+       class="boton-secundario">
+        Volver
+    </a>
+
 </div>
+
 {% endblock %}

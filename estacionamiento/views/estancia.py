@@ -1,7 +1,7 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 
 from estacionamiento.models import Estancia
 from estacionamiento.forms import EstanciaForm
@@ -9,6 +9,7 @@ from estacionamiento.forms import EstanciaForm
 
 # Listar estancias
 @login_required
+@permission_required('estacionamiento.view_estancia', raise_exception=True)
 def estancia_lista(request):
     estancias = Estancia.objects.all()
 
@@ -19,6 +20,7 @@ def estancia_lista(request):
 
 # Registrar estancia
 @login_required
+@permission_required('estacionamiento.add_estancia', raise_exception=True)
 def estancia_crear(request):
     if request.method == 'POST':
         formulario = EstanciaForm(request.POST)
@@ -42,6 +44,7 @@ def estancia_crear(request):
 
 # Ver detalles
 @login_required
+@permission_required('estacionamiento.view_estancia', raise_exception=True)
 def estancia_detalle(request, pk):
     estancia = get_object_or_404(Estancia, pk=pk)
 
@@ -52,8 +55,12 @@ def estancia_detalle(request, pk):
 
 # Editar estancia
 @login_required
+@permission_required('estacionamiento.change_estancia', raise_exception=True)
 def estancia_editar(request, pk):
     estancia = get_object_or_404(Estancia, pk=pk)
+
+    if not request.user.is_superuser and estancia.creado_por != request.user:
+        raise PermissionDenied
 
     if request.method == 'POST':
         formulario = EstanciaForm(request.POST, instance=estancia)
@@ -74,8 +81,12 @@ def estancia_editar(request, pk):
 
 # Eliminar estancia
 @login_required
+@permission_required('estacionamiento.delete_estancia', raise_exception=True)
 def estancia_eliminar(request, pk):
     estancia = get_object_or_404(Estancia, pk=pk)
+
+    if not request.user.is_superuser and estancia.creado_por != request.user:
+        raise PermissionDenied
 
     if request.method == 'POST':
         estancia.delete()
