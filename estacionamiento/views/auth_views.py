@@ -32,6 +32,11 @@ def registro(request):
         'estacionamiento/autenticacion/registro.html',
         {'formulario': formulario}
     )
+def inicio(request):
+    if request.user.is_authenticated:
+        return redirect('estacionamiento:cliente_lista')
+
+    return redirect('estacionamiento:login')
 
 
 def iniciar_sesion(request):

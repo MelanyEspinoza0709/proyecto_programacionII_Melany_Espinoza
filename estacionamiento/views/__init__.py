@@ -19,7 +19,8 @@ from .estancia import (
     estancia_crear,
     estancia_detalle,
     estancia_editar,
-    estancia_eliminar
+    estancia_eliminar,
+    estancia_salida
 )
 
 from .servicio import (

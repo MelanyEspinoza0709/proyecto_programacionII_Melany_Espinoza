@@ -44,6 +44,13 @@
                 {% if perms.estacionamiento.change_estancia %}
                     {% if estancia.creado_por == user or user.is_superuser %}
                     <a href="{% url 'estacionamiento:estancia_editar' estancia.pk %}">Editar</a>
+
+                    {% if estancia.estado == 'ACTIVA' %}
+                    <form method="post" action="{% url 'estacionamiento:estancia_salida' estancia.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="boton">Registrar salida</button>
+                    </form>
+                    {% endif %}
                     {% endif %}
                 {% endif %}
 

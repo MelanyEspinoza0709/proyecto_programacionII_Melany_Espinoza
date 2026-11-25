@@ -1,6 +1,8 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db import models
 
 from estacionamiento.models import Cliente
 from estacionamiento.forms import ClienteForm
@@ -78,8 +80,15 @@ def cliente_eliminar(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
 
     if request.method == 'POST':
-        cliente.delete()
-        messages.success(request, 'Cliente eliminado correctamente.')
+        try:
+            cliente.delete()
+            messages.success(request, 'Cliente eliminado correctamente.')
+        except models.ProtectedError:
+            messages.error(
+                request,
+                'No se puede eliminar este cliente porque tiene vehículos o estancias registradas.'
+            )
+
         return redirect('estacionamiento:cliente_lista')
 
     return render(request, 'estacionamiento/clientes/confirmar_eliminar.html', {
