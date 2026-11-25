@@ -1,3 +1,4 @@
+from django.urls import path
 
 from .cliente import urlpatterns as cliente_urls
 from .vehiculo import urlpatterns as vehiculo_urls
@@ -6,9 +7,13 @@ from .servicio import urlpatterns as servicio_urls
 from .espacio import urlpatterns as espacio_urls
 from .auth import urlpatterns as auth_urls
 
+from estacionamiento.views.auth_views import inicio
+
 app_name = 'estacionamiento'
 
-urlpatterns = (
+urlpatterns = [
+    path('', inicio, name='inicio'),
+] + (
     cliente_urls +
     vehiculo_urls +
     estancia_urls +
@@ -16,4 +21,3 @@ urlpatterns = (
     espacio_urls +
     auth_urls
 )
-

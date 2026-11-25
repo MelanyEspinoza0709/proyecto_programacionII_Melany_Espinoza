@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db import models
 
 from estacionamiento.models import Vehiculo
 from estacionamiento.forms import VehiculoForm
@@ -78,8 +79,15 @@ def vehiculo_eliminar(request, pk):
     vehiculo = get_object_or_404(Vehiculo, pk=pk)
 
     if request.method == 'POST':
-        vehiculo.delete()
-        messages.success(request, 'Vehículo eliminado correctamente.')
+        try:
+            vehiculo.delete()
+            messages.success(request, 'Vehículo eliminado correctamente.')
+        except models.ProtectedError:
+            messages.error(
+                request,
+                'No se puede eliminar este vehículo porque tiene estancias registradas.'
+            )
+
         return redirect('estacionamiento:vehiculo_lista')
 
     return render(request, 'estacionamiento/vehiculos/confirmar_eliminar.html', {
