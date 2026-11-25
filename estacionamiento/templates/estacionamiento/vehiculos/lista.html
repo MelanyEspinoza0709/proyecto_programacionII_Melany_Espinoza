@@ -4,14 +4,18 @@
 {% block title %}Vehículos | Luxury Parking{% endblock %}
 
 {% block content %}
+
 <div class="encabezado-seccion">
     <div>
         <h2>Gestión de vehículos</h2>
         <p>Administra los vehículos registrados.</p>
     </div>
+
+    {% if perms.estacionamiento.add_vehiculo %}
     <a href="{% url 'estacionamiento:vehiculo_crear' %}" class="boton">
         + Nuevo vehículo
     </a>
+    {% endif %}
 </div>
 
 <table>
@@ -24,6 +28,7 @@
             <th>Acciones</th>
         </tr>
     </thead>
+
     <tbody>
         {% for vehiculo in vehiculos %}
         <tr>
@@ -33,8 +38,14 @@
             <td>{{ vehiculo.cliente }}</td>
             <td>
                 <a href="{{ vehiculo.get_absolute_url }}">Ver</a>
+
+                {% if perms.estacionamiento.change_vehiculo %}
                 <a href="{% url 'estacionamiento:vehiculo_editar' vehiculo.pk %}">Editar</a>
+                {% endif %}
+
+                {% if perms.estacionamiento.delete_vehiculo %}
                 <a href="{% url 'estacionamiento:vehiculo_eliminar' vehiculo.pk %}">Eliminar</a>
+                {% endif %}
             </td>
         </tr>
         {% empty %}
@@ -44,4 +55,5 @@
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}

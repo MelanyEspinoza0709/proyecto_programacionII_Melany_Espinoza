@@ -10,9 +10,11 @@
         <p>Administra la información de nuestros clientes.</p>
     </div>
 
+    {% if perms.estacionamiento.add_cliente %}
     <a href="{% url 'estacionamiento:cliente_crear' %}" class="boton">
         + Nuevo cliente
     </a>
+    {% endif %}
 </div>
 
 <table>
@@ -35,8 +37,14 @@
             <td>{{ cliente.correo|default:"No registrado" }}</td>
             <td>
                 <a href="{{ cliente.get_absolute_url }}">Ver</a>
+
+                {% if perms.estacionamiento.change_cliente %}
                 <a href="{% url 'estacionamiento:cliente_editar' cliente.pk %}">Editar</a>
+                {% endif %}
+
+                {% if perms.estacionamiento.delete_cliente %}
                 <a href="{% url 'estacionamiento:cliente_eliminar' cliente.pk %}">Eliminar</a>
+                {% endif %}
             </td>
         </tr>
         {% empty %}

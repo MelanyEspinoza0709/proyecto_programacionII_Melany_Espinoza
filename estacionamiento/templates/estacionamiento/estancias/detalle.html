@@ -4,18 +4,23 @@
 {% block title %}Detalle de estancia | Luxury Parking{% endblock %}
 
 {% block content %}
+
 <h2>Información de la estancia</h2>
 
 <div class="detalle-contenedor">
+
     <h3>Estancia #{{ estancia.pk }}</h3>
 
     <p><strong>Vehículo:</strong> {{ estancia.vehiculo }}</p>
     <p><strong>Espacio:</strong> {{ estancia.espacio }}</p>
+
     <p><strong>Fecha de entrada:</strong>
-        {{ estancia.fecha_entrada|date:"d/m/Y H:i" }}</p>
+        {{ estancia.fecha_entrada|date:"d/m/Y H:i" }}
+    </p>
 
     <p><strong>Fecha de salida:</strong>
-        {{ estancia.fecha_salida|date:"d/m/Y H:i"|default:"Pendiente" }}</p>
+        {{ estancia.fecha_salida|date:"d/m/Y H:i"|default:"Pendiente" }}
+    </p>
 
     <p><strong>Estado:</strong> {{ estancia.estado }}</p>
     <p><strong>Total:</strong> ${{ estancia.total }}</p>
@@ -29,10 +34,20 @@
         <p>No hay servicios asociados.</p>
     {% endfor %}
 
-    <a href="{% url 'estacionamiento:estancia_editar' estancia.pk %}"
-       class="boton">Editar estancia</a>
+    {% if perms.estacionamiento.change_estancia %}
+        {% if estancia.creado_por == user or user.is_superuser %}
+        <a href="{% url 'estacionamiento:estancia_editar' estancia.pk %}"
+           class="boton">
+            Editar estancia
+        </a>
+        {% endif %}
+    {% endif %}
 
     <a href="{% url 'estacionamiento:estancia_lista' %}"
-       class="boton-secundario">Volver</a>
+       class="boton-secundario">
+        Volver
+    </a>
+
 </div>
+
 {% endblock %}

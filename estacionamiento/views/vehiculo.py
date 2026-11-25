@@ -1,7 +1,6 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 from estacionamiento.models import Vehiculo
 from estacionamiento.forms import VehiculoForm
@@ -9,6 +8,7 @@ from estacionamiento.forms import VehiculoForm
 
 # Listar vehículos
 @login_required
+@permission_required('estacionamiento.view_vehiculo', raise_exception=True)
 def vehiculo_lista(request):
     vehiculos = Vehiculo.objects.all()
 
@@ -19,6 +19,7 @@ def vehiculo_lista(request):
 
 # Registrar vehículo
 @login_required
+@permission_required('estacionamiento.add_vehiculo', raise_exception=True)
 def vehiculo_crear(request):
     if request.method == 'POST':
         formulario = VehiculoForm(request.POST)
@@ -38,6 +39,7 @@ def vehiculo_crear(request):
 
 # Ver detalles
 @login_required
+@permission_required('estacionamiento.view_vehiculo', raise_exception=True)
 def vehiculo_detalle(request, pk):
     vehiculo = get_object_or_404(Vehiculo, pk=pk)
 
@@ -48,6 +50,7 @@ def vehiculo_detalle(request, pk):
 
 # Editar vehículo
 @login_required
+@permission_required('estacionamiento.change_vehiculo', raise_exception=True)
 def vehiculo_editar(request, pk):
     vehiculo = get_object_or_404(Vehiculo, pk=pk)
 
@@ -70,6 +73,7 @@ def vehiculo_editar(request, pk):
 
 # Eliminar vehículo
 @login_required
+@permission_required('estacionamiento.delete_vehiculo', raise_exception=True)
 def vehiculo_eliminar(request, pk):
     vehiculo = get_object_or_404(Vehiculo, pk=pk)
 

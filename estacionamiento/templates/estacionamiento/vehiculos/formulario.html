@@ -1,0 +1,30 @@
+
+{% extends 'estacionamiento/base.html' %}
+
+{% block title %}Formulario de vehículo | Luxury Parking{% endblock %}
+
+{% block content %}
+<div class="encabezado-seccion">
+    <div>
+        {% if vehiculo %}
+            <h2>Editar vehículo</h2>
+            <p>Actualiza la información del vehículo.</p>
+        {% else %}
+            <h2>Registrar vehículo</h2>
+            <p>Ingresa los datos del nuevo vehículo.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="formulario-contenedor">
+    <form method="POST">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+
+        <div class="acciones-formulario">
+            <button type="submit" class="boton">Guardar</button>
+            <a href="{% url 'estacionamiento:vehiculo_lista' %}" class="boton-secundario">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

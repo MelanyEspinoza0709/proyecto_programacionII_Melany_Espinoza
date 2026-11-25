@@ -16,9 +16,11 @@
     <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
     <p><strong>Correo:</strong> {{ cliente.correo|default:"No registrado" }}</p>
 
+    {% if perms.estacionamiento.change_cliente %}
     <a href="{% url 'estacionamiento:cliente_editar' cliente.pk %}" class="boton">
         Editar cliente
     </a>
+    {% endif %}
 
     <a href="{% url 'estacionamiento:cliente_lista' %}" class="boton-secundario">
         Volver

@@ -4,15 +4,18 @@
 {% block title %}Estancias | Luxury Parking{% endblock %}
 
 {% block content %}
+
 <div class="encabezado-seccion">
     <div>
         <h2>Gestión de estancias</h2>
         <p>Administra los ingresos y salidas de vehículos.</p>
     </div>
 
+    {% if perms.estacionamiento.add_estancia %}
     <a href="{% url 'estacionamiento:estancia_crear' %}" class="boton">
         + Nueva estancia
     </a>
+    {% endif %}
 </div>
 
 <table>
@@ -37,8 +40,18 @@
             <td>${{ estancia.total }}</td>
             <td>
                 <a href="{{ estancia.get_absolute_url }}">Ver</a>
-                <a href="{% url 'estacionamiento:estancia_editar' estancia.pk %}">Editar</a>
-                <a href="{% url 'estacionamiento:estancia_eliminar' estancia.pk %}">Eliminar</a>
+
+                {% if perms.estacionamiento.change_estancia %}
+                    {% if estancia.creado_por == user or user.is_superuser %}
+                    <a href="{% url 'estacionamiento:estancia_editar' estancia.pk %}">Editar</a>
+                    {% endif %}
+                {% endif %}
+
+                {% if perms.estacionamiento.delete_estancia %}
+                    {% if estancia.creado_por == user or user.is_superuser %}
+                    <a href="{% url 'estacionamiento:estancia_eliminar' estancia.pk %}">Eliminar</a>
+                    {% endif %}
+                {% endif %}
             </td>
         </tr>
         {% empty %}
@@ -48,4 +61,5 @@
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}
