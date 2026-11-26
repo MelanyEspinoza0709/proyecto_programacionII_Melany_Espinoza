@@ -1,25 +1,24 @@
 # Luxury Parking
 
-Luxury Parking es una aplicación web para administrar información de un
-estacionamiento. Permite gestionar clientes, vehículos y estancias, consultar
-servicios y registrar la salida de un vehículo.
+Luxury Parking es una aplicación web desarrollada con Django para administrar un estacionamiento. Permite gestionar clientes, vehículos, estancias y servicios, además de registrar la entrada y salida de los vehículos.
 
-## Objetivo
+## 1. Objetivo del proyecto
 
-El objetivo del sistema es ayudar a una recepcionista a registrar los vehículos
-que ingresan, asociarles servicios y finalizar sus estancias al momento de la
-salida. También permite administrar clientes, vehículos y cuentas con distintos
-permisos.
+El objetivo del sistema es facilitar el trabajo de una recepcionista al registrar los vehículos que ingresan al estacionamiento, asociarles servicios y finalizar sus estancias al momento de la salida.
 
-## Tecnologías
+También permite administrar clientes, vehículos y cuentas de usuario mediante diferentes permisos.
 
-- Python 3.14.3 y Django 6.1.3, versiones observadas en el entorno virtual del
-  proyecto.
+## 2. Tecnologías utilizadas
+
+- Python 3.14.3.
+- Django 6.1.3.
 - SQLite como base de datos local.
-- HTML para las páginas y CSS propio para el diseño.
-- `requirements.txt` fija Django en la versión `6.1.3`.
+- HTML para la estructura de las páginas.
+- CSS para el diseño de la aplicación.
 
-## Estructura del proyecto
+Las dependencias del proyecto se encuentran en el archivo `requirements.txt`.
+
+## 3. Estructura del proyecto
 
 ```text
 Estacionamiento/
@@ -41,13 +40,10 @@ Estacionamiento/
 │   │   ├── servicio_form.py
 │   │   └── vehiculo_form.py
 │   ├── management/
-│   │   ├── __init__.py
 │   │   └── commands/
-│   │       ├── __init__.py
 │   │       ├── cargar_datos.py
 │   │       └── configurar_grupos.py
 │   ├── migrations/
-│   │   ├── __init__.py
 │   │   └── 0001_initial.py
 │   ├── models/
 │   │   ├── __init__.py
@@ -55,15 +51,17 @@ Estacionamiento/
 │   │   ├── estancia.py
 │   │   ├── servicio.py
 │   │   └── vehiculo.py
-│   ├── static/estacionamiento/css/estilos.css
-│   ├── templates/estacionamiento/
-│   │   ├── autenticacion/
-│   │   ├── clientes/
-│   │   ├── estancias/
-│   │   ├── espacios/
-│   │   ├── servicios/
-│   │   ├── vehiculos/
-│   │   └── base.html
+│   ├── static/
+│   │   └── estacionamiento/css/estilos.css
+│   ├── templates/
+│   │   └── estacionamiento/
+│   │       ├── autenticacion/
+│   │       ├── clientes/
+│   │       ├── estancias/
+│   │       ├── espacios/
+│   │       ├── servicios/
+│   │       ├── vehiculos/
+│   │       └── base.html
 │   ├── urls/
 │   │   ├── __init__.py
 │   │   ├── auth.py
@@ -87,107 +85,115 @@ Estacionamiento/
 └── requirements.txt
 ```
 
-La carpeta `.venv` contiene el entorno virtual local y está excluida del
-repositorio por `.gitignore`.
+La carpeta `.venv` contiene el entorno virtual y está excluida del repositorio mediante `.gitignore`.
 
-## Modelos y relaciones
+## 4. Modelos y relaciones
 
-- **Cliente:** guarda nombre, apellido, cédula, teléfono y correo. La cédula es
-  única.
-- **Vehiculo:** guarda marca, modelo, año, placa y color. Su relación
-  `ForeignKey` vincula cada vehículo con un cliente; la placa es única.
-- **Estancia:** guarda el vehículo, el espacio, fechas de entrada y salida,
-  estado y total. También guarda el usuario que la creó. Se relaciona con
-  `Vehiculo` y con el usuario mediante `ForeignKey`.
-- **Servicio:** guarda nombre, descripción y precio. Tiene una relación
-  `ManyToMany` con `Estancia`: una estancia puede tener varios servicios y un
-  servicio puede estar asociado a varias estancias.
+El sistema cuenta con cuatro modelos principales:
 
-Los estados de una estancia son `ACTIVA`, `FINALIZADA` y `CANCELADA`. Las fechas
-se guardan en campos de fecha y hora y los precios y totales en campos decimales.
+- **Cliente:** almacena nombre, apellido, cédula, teléfono y correo electrónico. La cédula es única.
+- **Vehiculo:** almacena marca, modelo, año, placa y color. Cada vehículo pertenece a un cliente mediante una relación `ForeignKey`. La placa es única.
+- **Estancia:** registra el vehículo, el espacio, las fechas de entrada y salida, el estado y el total a pagar. También guarda el usuario que creó la estancia.
+- **Servicio:** almacena nombre, descripción y precio. Se relaciona con Estancia mediante `ManyToManyField`, por lo que una estancia puede tener varios servicios.
 
-## Funcionalidades y módulos
+### Relaciones entre los modelos
+
+- Cliente 1:N Vehiculo.
+- Vehiculo 1:N Estancia.
+- Estancia N:M Servicio.
+- Usuario 1:N Estancia, mediante el campo que registra quién creó cada estancia.
+
+Los estados de una estancia son `ACTIVA`, `FINALIZADA` y `CANCELADA`.
+
+Las fechas se almacenan en campos de fecha y hora, mientras que los precios y totales utilizan campos decimales.
+
+## 5. Funcionalidades del sistema
 
 | Módulo | Funcionalidad |
-| --- | --- |
+|---|---|
 | Clientes | Crear, listar, consultar, editar y eliminar clientes. |
 | Vehículos | Crear, listar, consultar, editar y eliminar vehículos. |
-| Estancias | Registrar entradas, listar y consultar estancias, editar o eliminar según permisos y registrar salidas. |
-| Servicios | Listar servicios y ver sus detalles. Las vistas disponibles actuales no implementan un CRUD de servicios. |
-| Espacios | Listar espacios usados en las estancias y consultar sus estancias y ocupación. |
+| Estancias | Registrar entradas, consultar estancias, modificarlas y registrar salidas según los permisos. |
+| Servicios | Consultar los servicios y sus detalles. |
+| Espacios | Consultar los espacios utilizados y sus estancias. |
 | Autenticación | Registrar cuentas, iniciar sesión y cerrar sesión. |
-| Administración | Modelos Cliente, Vehiculo, Estancia y Servicio registrados en el administrador de Django. |
+| Administración | Administrar los cuatro modelos desde Django Admin. |
 
-El formulario de estancia permite seleccionar varios servicios y muestra el
-precio junto al nombre de cada uno. El formulario de cliente valida que la
-cédula tenga exactamente diez dígitos.
+El formulario de estancia permite seleccionar varios servicios y muestra sus precios. El formulario de cliente valida que la cédula tenga exactamente diez dígitos.
 
-### Cálculo del total de una estancia
+### 5.1. Cálculo del total de una estancia
 
-Al registrar la salida, el sistema calcula el tiempo desde la entrada y cobra
-$2.00 por cada hora iniciada, con un mínimo de una hora. Luego suma los precios
-de los servicios asociados, guarda el total y cambia el estado a `FINALIZADA`.
+Al registrar la salida de un vehículo, el sistema calcula el tiempo transcurrido desde su entrada y cobra $2.00 por cada hora iniciada, con un mínimo de una hora.
 
-Ejemplo: una permanencia de 2 horas y 20 minutos se cobra como 3 horas:
-3 × $2.00 = $6.00. Si los servicios suman $15.00, el total es $21.00.
+Después suma el precio de los servicios asociados, guarda el total y cambia el estado de la estancia a `FINALIZADA`.
 
-## Registro, inicio de sesión y grupos
+**Ejemplo:**
 
-Las rutas de autenticación son `/registro/`, `/login/` y `/logout/`. El cierre
-de sesión se envía mediante POST. Al registrarse, la aplicación agrega la cuenta
-nueva al grupo `Recepcionistas`.
+- Tiempo de permanencia: 2 horas y 20 minutos.
+- Cobro del estacionamiento: 3 × $2.00 = $6.00.
+- Servicios: $15.00.
+- Total: $21.00.
 
-El comando `configurar_grupos` crea y asigna los permisos siguientes:
+## 6. Autenticación y permisos
 
-- **Administradores:** permisos de consulta, creación, modificación y
-  eliminación para los cuatro modelos.
-- **Recepcionistas:** permisos de consulta, creación y modificación para los
-  cuatro modelos; no reciben permisos de eliminación.
+Las rutas de autenticación son:
 
-Las vistas también comprueban los permisos al recibir una URL directa. Para
-editar, eliminar o registrar la salida de una estancia, la persona debe ser
-quien creó esa estancia o ser superusuario. Pertenecer a Administradores no
-omite por sí solo esta comprobación de propiedad.
+- `/registro/`: registro de usuarios.
+- `/login/`: inicio de sesión.
+- `/logout/`: cierre de sesión mediante POST.
 
-El comando que crea los grupos no crea usuarios. Las cuentas observadas en la
-base local revisada son:
+Cuando una persona se registra, su cuenta se agrega automáticamente al grupo `Recepcionistas`.
 
-| Usuario | Rol observado |
-| --- | --- |
-| `melany` | Superusuario y miembro del personal de Django; no pertenece a un grupo. |
-| `admin_luxury` | Miembro de Administradores; no es superusuario. |
-| `Lucia` | Miembro de Recepcionistas. |
-| `usuario_datos_demo` | Cuenta usada por `cargar_datos` para registrar las estancias de ejemplo; sin grupo. El comando le asigna una contraseña inutilizable cuando crea esa cuenta. |
+El proyecto utiliza dos grupos principales:
 
-Estos nombres describen la base local revisada y pueden ser distintos en otra
-instalación. No se incluyen contraseñas porque no se documentan aquí.
-Al instalar el proyecto desde cero, las cuentas de la base local no se crean
-automáticamente. El comando `configurar_grupos` crea grupos y asigna permisos,
-pero no crea usuarios; `cargar_datos` asegura la cuenta `usuario_datos_demo` y
-los datos de ejemplo. El registro crea una cuenta cuando alguien completa el
-formulario y la agrega a Recepcionistas. `createsuperuser` crea un superusuario.
-La pertenencia de una cuenta al grupo Administradores no se asigna
-automáticamente por estos comandos.
+### Administradores
 
-Las pruebas automatizadas crean además cuentas temporales en su base de prueba;
-no son las cuentas persistentes de `db.sqlite3`:
+Tienen permisos de consulta, creación, modificación y eliminación para los cuatro modelos.
 
-- `recepcionista`: se agrega al grupo temporal Recepcionistas con permisos de
-  consulta, creación y cambio de clientes.
-- `recepcionista_estancias`: recibe permisos directos para consultar, crear y
-  cambiar estancias; la prueba no lo agrega a un grupo.
+### Recepcionistas
 
-No se documentan contraseñas para estas cuentas temporales.
+Tienen permisos de consulta, creación y modificación para los cuatro modelos. No reciben permisos de eliminación.
 
-## Requisitos
+Las vistas también verifican los permisos cuando se intenta ingresar directamente mediante una URL.
 
-- Windows con PowerShell.
-- Python 3.14.3, usado por el entorno virtual revisado.
-- Las dependencias indicadas en `requirements.txt` (Django 6.1.3).
+Para editar, eliminar o registrar la salida de una estancia, el usuario debe ser quien creó esa estancia o ser superusuario.
 
-## Instalación y ejecución
+Pertenecer al grupo `Administradores` no elimina esta comprobación de propiedad.
 
-Abre PowerShell en la carpeta que contiene `Estacionamiento` y ejecuta:
+## 7. Cuentas de prueba
+
+Las siguientes cuentas corresponden a la base de datos local utilizada durante las pruebas del proyecto.
+
+| Usuario | Rol o grupo | Contraseña |
+|---|---|---|
+| `melany` | Superusuario y personal de Django | **melanyespinoza123** |
+| `admin_luxury` | Grupo Administradores | **luxury1234** |
+| `Lucia` | Grupo Recepcionistas | **luciarecepcionista** |
+| `usuario_datos_demo` | Usuario de datos de ejemplo, sin grupo | No tiene contraseña utilizable. |
+
+**Importante:**
+
+- `melany` puede ingresar al panel de administración de Django porque es superusuario y miembro del personal.
+- `admin_luxury` pertenece al grupo Administradores, pero no es superusuario ni miembro del personal de Django.
+- `Lucia` pertenece al grupo Recepcionistas.
+- `usuario_datos_demo` es utilizado por el comando de datos de ejemplo para registrar las estancias.
+
+Los nombres y las cuentas anteriores corresponden a la base local revisada. No se crean automáticamente al clonar el repositorio.
+
+El comando `configurar_grupos` crea los grupos y asigna sus permisos, pero no crea las cuentas personales. Para crear un superusuario se utiliza `createsuperuser`. Las demás cuentas pueden registrarse desde la aplicación y recibir su grupo correspondiente desde la administración de Django.
+
+## 8. Requisitos para ejecutar el proyecto
+
+- Windows.
+- PowerShell.
+- Python 3.14.3.
+- Las dependencias indicadas en `requirements.txt`.
+
+## 9. Instalación y ejecución
+
+Primero, clona el repositorio y abre PowerShell en la carpeta del proyecto.
+
+Ejecuta los siguientes comandos:
 
 ```powershell
 cd .\Estacionamiento
@@ -195,48 +201,77 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python manage.py migrate
-python manage.py createsuperuser
 python manage.py configurar_grupos
 python manage.py cargar_datos
+python manage.py createsuperuser
 python manage.py runserver
 ```
 
-La migración prepara las tablas. `configurar_grupos` debe ejecutarse después de
-las migraciones para que los permisos de los grupos queden asignados.
-`createsuperuser` es un comando interactivo de Django: ejecútalo después de
-migrar si necesitas crear una cuenta para ingresar al panel `/admin/`. Solicita
-los datos de la cuenta en la terminal; este README no incluye contraseñas.
-`cargar_datos` usa `get_or_create` para proporcionar datos de ejemplo de
-clientes, vehículos, estancias y servicios. El comando crea cinco ejemplos de
-cada uno de esos modelos cuando no existen ya.
+**Descripción de los comandos:**
 
-Cuando el servidor esté en ejecución, abre `http://127.0.0.1:8000/`. Si PowerShell
-no permite activar el entorno virtual, se puede invocar directamente
-`.\.venv\Scripts\python.exe` en lugar de `python`.
+- `migrate`: crea las tablas necesarias en la base de datos.
+- `configurar_grupos`: crea los grupos y configura sus permisos.
+- `cargar_datos`: registra datos de ejemplo para clientes, vehículos, estancias y servicios.
+- `createsuperuser`: permite crear una cuenta con acceso al panel de administración.
+- `runserver`: inicia el servidor de desarrollo.
 
-## Panel de administración
+El comando `cargar_datos` utiliza `get_or_create` para evitar duplicar los registros que ya existen.
 
-El panel está disponible en `/admin/` y los cuatro modelos están registrados.
-Para entrar se necesita una cuenta con acceso al administrador de Django. En la
-base local revisada, `melany` es superusuario; `admin_luxury` pertenece al grupo
-Administradores, pero no es superusuario ni miembro del personal de Django.
+Si PowerShell no permite activar el entorno virtual, se puede utilizar directamente:
 
-## Pruebas automatizadas
+```powershell
+.\.venv\Scripts\python.exe manage.py runserver
+```
 
-Para ejecutar las pruebas desde la carpeta del proyecto:
+Cuando el servidor esté iniciado, abre la siguiente dirección:
+
+http://127.0.0.1:8000/
+
+## 10. Panel de administración
+
+El panel de administración está disponible en:
+
+http://127.0.0.1:8000/admin/
+
+Los cuatro modelos principales están registrados en Django Admin:
+
+- Cliente.
+- Vehiculo.
+- Estancia.
+- Servicio.
+
+Para ingresar se necesita una cuenta con acceso al administrador de Django.
+
+## 11. Pruebas automatizadas
+
+Para ejecutar las pruebas del proyecto, utiliza:
 
 ```powershell
 python manage.py test
 ```
 
-`estacionamiento/tests.py` contiene pruebas para las páginas de registro e
-inicio de sesión, permisos básicos de clientes y el registro de salida de una
-estancia. La prueba de salida verifica selección múltiple de servicios, CSRF,
-estado final y cálculo del total.
+El archivo `estacionamiento/tests.py` contiene pruebas relacionadas con:
 
-## Configuración de desarrollo
+- Registro de usuarios.
+- Inicio de sesión.
+- Permisos de clientes.
+- Registro de salida de una estancia.
+- Selección de servicios y cálculo del total.
 
-La configuración actual usa SQLite y está preparada para desarrollo local.
-`DEBUG` está activado y `ALLOWED_HOSTS` está vacío. Antes de publicar el
-proyecto, configura una clave secreta segura, `DEBUG`, `ALLOWED_HOSTS` y los
-demás ajustes apropiados para producción.
+Las pruebas verifican también el estado final de la estancia y el funcionamiento de las operaciones protegidas.
+
+## 12. Configuración de desarrollo
+
+El proyecto utiliza SQLite y está configurado para ejecutarse en un entorno local de desarrollo.
+
+Actualmente, `DEBUG` está activado y `ALLOWED_HOSTS` está vacío.
+
+Antes de publicar el sistema en un servidor real, se deben configurar una clave secreta segura, `DEBUG`, `ALLOWED_HOSTS` y los demás ajustes necesarios para producción.
+
+## 13. Repositorio
+
+**GitHub:**  
+https://github.com/MelanyEspinoza0709/proyecto_programacionII_Melany_Espinoza
+
+**Rama de entrega:**  
+`ENTREGA-FINAL-LUXURY-PARKING`
